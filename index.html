@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Order — Included SSL Mockups</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #333;
+      background: #e8e8e8;
+    }
+
+    /* Review chrome */
+    .review-bar {
+      background: #1e1e1e;
+      color: #fff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .review-bar label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #aaa;
+    }
+
+    .variant-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .variant-tab {
+      padding: 6px 14px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background: transparent;
+      color: #ccc;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .variant-tab:hover { border-color: #888; color: #fff; }
+    .variant-tab.active { background: #7dba00; border-color: #7dba00; color: #fff; }
+
+    .review-meta {
+      margin-left: auto;
+      font-size: 12px;
+      color: #888;
+      max-width: 480px;
+      line-height: 1.4;
+    }
+
+    .mockup-frame {
+      max-width: 1100px;
+      margin: 24px auto 48px;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── Shared Product Management shell ── */
+    .page-title {
+      padding: 20px 28px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .nav-tiles {
+      display: flex;
+      gap: 0;
+      padding: 16px 28px 0;
+    }
+
+    .nav-tile {
+      flex: 1;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #d8d8d8;
+      border: 1px solid #ccc;
+      border-right: none;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #555;
+      text-align: center;
+      padding: 12px 8px;
+    }
+
+    .nav-tile:last-child { border-right: 1px solid #ccc; }
+
+    .nav-tile.dark { background: #555; color: #fff; }
+    .nav-tile.active { background: #7dba00; color: #fff; }
+
+    .nav-tile-icon {
+      width: 32px;
+      height: 32px;
+      opacity: 0.85;
+    }
+
+    .nav-tile-icon svg { width: 100%; height: 100%; fill: currentColor; }
+
+    /* Product Order card */
+    .product-order {
+      margin: 20px 28px 28px;
+      border: 1px solid #ddd;
+    }
+
+    .product-order-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-icon {
+      width: 28px;
+      height: 28px;
+      color: #666;
+    }
+
+    .product-order-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .product-order-header p {
+      font-size: 13px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .product-order-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .column-header {
+      background: #888;
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .column-left { border-right: 1px solid #ddd; }
+
+    .product-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid #eee;
+      gap: 12px;
+    }
+
+    .product-row:last-child { border-bottom: none; }
+
+    .product-name {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .product-sub {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .btn-product {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background: #7dba00;
+      color: #fff;
+      border: none;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-product:hover { background: #6da600; }
+
+    .btn-product.activate {
+      background: #1a4d44;
+      padding: 10px 20px;
+      font-size: 12px;
+    }
+
+    .btn-product.activate:hover { background: #143d36; }
+
+    .btn-product.pulse {
+      animation: pulse-border 2s infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(26, 77, 68, 0.4); }
+      50% { box-shadow: 0 0 0 4px rgba(26, 77, 68, 0.15); }
+    }
+
+    /* Other services */
+    .other-service {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .other-service:last-child { border-bottom: none; }
+
+    .other-icon {
+      width: 28px;
+      height: 28px;
+      color: #888;
+      flex-shrink: 0;
+    }
+
+    .other-link {
+      color: #0066cc;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .other-desc {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    /* ── Variant-specific components ── */
+
+    /* Welcome banner */
+    .welcome-banner {
+      margin: 0 28px;
+      padding: 16px 20px;
+      background: #e8f5e0;
+      border: 2px solid #7dba00;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .welcome-banner-icon {
+      width: 40px;
+      height: 40px;
+      background: #7dba00;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .welcome-banner-body { flex: 1; }
+
+    .welcome-banner-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .welcome-banner-text {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.45;
+    }
+
+    .welcome-banner-cta {
+      flex-shrink: 0;
+    }
+
+    /* Highlighted SSL row */
+    .product-row.highlighted {
+      background: #f0f9eb;
+      border-left: 4px solid #7dba00;
+      padding-left: 12px;
+    }
+
+    .product-row.highlighted-strong {
+      background: #fff8e1;
+      border-left: 4px solid #f0c040;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .badge-included {
+      background: #7dba00;
+      color: #fff;
+    }
+
+    .badge-action {
+      background: #f0c040;
+      color: #5a4800;
+    }
+
+    .badge-free {
+      background: #e8f5e0;
+      color: #3d6b00;
+      border: 1px solid #7dba00;
+    }
+
+    /* SSL callout card */
+    .ssl-callout {
+      margin: 0 28px 16px;
+      padding: 20px;
+      border: 2px solid #1a4d44;
+      background: #f7fbf9;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .ssl-callout-icon {
+      width: 48px;
+      height: 48px;
+      background: #1a4d44;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ssl-callout-icon svg { width: 28px; height: 28px; fill: #fff; }
+
+    .ssl-callout-body { flex: 1; }
+
+    .ssl-callout-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a4d44;
+      margin-bottom: 6px;
+    }
+
+    .ssl-callout-text {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .ssl-callout-steps {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .ssl-callout-steps span::before {
+      content: "→ ";
+      color: #7dba00;
+      font-weight: 700;
+    }
+
+    .ssl-callout-steps span:first-child::before { content: ""; }
+
+    /* Onboarding checklist */
+    .onboarding-checklist {
+      margin: 0 28px 16px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+    }
+
+    .onboarding-header {
+      padding: 12px 16px;
+      background: #555;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .onboarding-body { padding: 16px; }
+
+    .onboarding-intro {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .checklist {
+      list-style: none;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    .checklist-item:last-child { border-bottom: none; }
+
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .check-icon.done {
+      background: #7dba00;
+      color: #fff;
+    }
+
+    .check-icon.next {
+      background: #fff8e1;
+      border: 2px solid #f0c040;
+      color: #8a6d00;
+    }
+
+    .check-icon.pending {
+      background: #eee;
+      border: 2px solid #ccc;
+      color: #999;
+    }
+
+    .checklist-label { flex: 1; }
+    .checklist-label.done { color: #888; text-decoration: line-through; }
+    .checklist-label.next { font-weight: 600; color: #333; }
+
+    .checklist-action {
+      flex-shrink: 0;
+    }
+
+    /* Arrow pointer to SSL row */
+    .ssl-pointer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #fff8e1;
+      border-bottom: 1px solid #f0c040;
+      font-size: 12px;
+      font-weight: 600;
+      color: #8a6d00;
+    }
+
+    .ssl-pointer-arrow {
+      font-size: 16px;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    /* Metric footer */
+    .variant-notes {
+      margin: 0 28px 28px;
+      padding: 14px 16px;
+      background: #f5f5f5;
+      border: 1px dashed #ccc;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .variant-notes strong { color: #333; }
+  </style>
+</head>
+<body>
+
+  <div class="review-bar">
+    <label>Mockup variant</label>
+    <div class="variant-tabs" role="tablist">
+      <button class="variant-tab active" data-variant="1" role="tab">1 — Welcome banner</button>
+      <button class="variant-tab" data-variant="2" role="tab">2 — Highlighted row</button>
+      <button class="variant-tab" data-variant="3" role="tab">3 — SSL callout card</button>
+      <button class="variant-tab" data-variant="4" role="tab">4 — Onboarding checklist</button>
+      <button class="variant-tab" data-variant="5" role="tab">5 — Combined (recommended)</button>
+    </div>
+    <div class="review-meta" id="review-meta">Top welcome banner + relabeled CTA. Highest visibility on first login.</div>
+  </div>
+
+  <!-- Shared nav + product order shell rendered per variant -->
+  <div id="variants-container"></div>
+
+  <script>
+    const lockIcon = `<svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`;
+
+    const products = [
+      { name: 'Web hosting', defaultBtn: true },
+      { name: 'WordPress Hosting', defaultBtn: true },
+      { name: 'Microsoft 365', defaultBtn: true },
+      { name: 'SSL certificates', isSsl: true },
+      { name: 'Sucuri', defaultBtn: true },
+    ];
+
+    const otherServices = `
+      <div class="other-service">
+        <div class="other-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg></div>
+        <div>
+          <a href="#" class="other-link">Migration Assistant</a>
+          <div class="other-desc">Easily move emails and contacts</div>
+        </div>
+      </div>
+      <div class="other-service">
+        <div class="other-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
+        <div>
+          <a href="#" class="other-link">Shop Designer</a>
+          <div class="other-desc">Professional shop optimization</div>
+        </div>
+      </div>
+    `;
+
+    function navTiles() {
+      return `
+        <div class="page-title">Product management</div>
+        <div class="nav-tiles">
+          <div class="nav-tile dark">
+            <div class="nav-tile-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div>
+            Contract overview
+          </div>
+          <div class="nav-tile">
+            <div class="nav-tile-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+            Domain services
+          </div>
+          <div class="nav-tile">
+            <div class="nav-tile-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/></svg></div>
+            cPanel Web Hosting
+          </div>
+          <div class="nav-tile">
+            <div class="nav-tile-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+            E-mail
+          </div>
+          <div class="nav-tile active">
+            <div class="nav-tile-icon"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+            Add product
+          </div>
+        </div>
+      `;
+    }
+
+    function productOrderHeader() {
+      return `
+        <div class="product-order-header">
+          <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <div>
+            <h2>Product Order</h2>
+            <p>Order additional products and services easily here:</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderProductRow(p, config) {
+      const isSsl = p.isSsl;
+      let rowClass = 'product-row';
+      let nameHtml = p.name;
+      let btnClass = 'btn-product';
+      let btnText = 'Product selection';
+
+      if (isSsl && config.sslHighlight) {
+        rowClass += config.sslHighlightStrong ? ' highlighted-strong' : ' highlighted';
+      }
+
+      if (isSsl) {
+        if (config.sslBadge) {
+          nameHtml += ` <span class="badge badge-included">Included</span>`;
+        }
+        if (config.sslSubtext) {
+          nameHtml = `<div><div class="product-name">${nameHtml}</div><div class="product-sub">${config.sslSubtext}</div></div>`;
+        } else {
+          nameHtml = `<div class="product-name">${nameHtml}</div>`;
+        }
+        if (config.sslBtnText) {
+          btnText = config.sslBtnText;
+          btnClass += ' activate';
+          if (config.sslBtnPulse) btnClass += ' pulse';
+        }
+      } else {
+        nameHtml = `<div class="product-name">${nameHtml}</div>`;
+      }
+
+      if (config.sslReorder && isSsl) {
+        return { html: `<div class="${rowClass}">${nameHtml}<button type="button" class="${btnClass}">${btnText}</button></div>`, priority: 0 };
+      }
+
+      return { html: `<div class="${rowClass}">${nameHtml}<button type="button" class="${btnClass}">${btnText}</button></div>`, priority: isSsl ? 0 : 1 };
+    }
+
+    function renderProductList(config) {
+      let rows = products.map(p => renderProductRow(p, config));
+      if (config.sslReorder) {
+        rows.sort((a, b) => a.priority - b.priority);
+      }
+      let html = rows.map(r => r.html).join('');
+      if (config.sslPointer) {
+        const sslIdx = rows.findIndex((_, i) => products[config.sslReorder ? (i === 0 ? 3 : i) : i]?.isSsl || (config.sslReorder && i === 0));
+        // Insert pointer before SSL row in output
+        const parts = html.split('</div>\n').filter(Boolean);
+        // Simpler: prepend pointer inside column
+        html = `<div class="ssl-pointer"><span class="ssl-pointer-arrow">↓</span> Your included DV SSL is here — click to activate</div>` + html;
+      }
+      return html;
+    }
+
+    function renderVariant(id, config) {
+      const aboveOrder = config.aboveOrder || '';
+      const notes = config.notes || '';
+
+      return `
+        <div class="mockup-frame ${id > 1 ? 'hidden' : ''}" id="variant-${id}">
+          ${navTiles()}
+          ${aboveOrder}
+          <div class="product-order">
+            ${productOrderHeader()}
+            <div class="product-order-body">
+              <div class="column-left">
+                <div class="column-header">Software &amp; Security</div>
+                ${renderProductList(config)}
+              </div>
+              <div>
+                <div class="column-header">Other Services</div>
+                ${otherServices}
+              </div>
+            </div>
+          </div>
+          <div class="variant-notes">${notes}</div>
+        </div>
+      `;
+    }
+
+    const variants = [
+      {
+        id: 1,
+        meta: 'Top welcome banner + relabeled CTA. Highest visibility on first login.',
+        aboveOrder: `
+          <div class="welcome-banner" style="margin-top:20px;">
+            <div class="welcome-banner-icon">✓</div>
+            <div class="welcome-banner-body">
+              <div class="welcome-banner-title">Welcome! Your hosting plan includes a free DV SSL certificate</div>
+              <div class="welcome-banner-text">Secure your website with the padlock icon — included at no extra cost. Go to <strong>SSL certificates</strong> below and click <strong>Activate included SSL</strong> to get started.</div>
+            </div>
+            <div class="welcome-banner-cta">
+              <button type="button" class="btn-product activate">Activate included SSL</button>
+            </div>
+          </div>
+        `,
+        sslBtnText: 'Activate included SSL',
+        sslBadge: true,
+        sslSubtext: 'Domain Validation SSL · Included with your plan',
+        notes: '<strong>Variant 1 — Welcome banner:</strong> Greets new customers and explicitly names the path (SSL certificates → Activate). Keeps existing layout; lowest engineering effort. Risk: banner may be dismissed and forgotten.',
+      },
+      {
+        id: 2,
+        meta: 'SSL row highlighted + moved to top + badge. In-context without extra chrome.',
+        sslHighlight: true,
+        sslHighlightStrong: false,
+        sslReorder: true,
+        sslBadge: true,
+        sslSubtext: 'Included with your Web Hosting plan · Not yet activated',
+        sslBtnText: 'Activate included SSL',
+        sslBtnPulse: true,
+        notes: '<strong>Variant 2 — Highlighted row:</strong> Moves SSL to top of list, adds green highlight + "Included" badge, changes button label. Customer sees it in context of product list. Risk: still one row among products — may compete with upsells.',
+      },
+      {
+        id: 3,
+        meta: 'Dedicated SSL callout card above product list. Strongest single-element focus.',
+        aboveOrder: `
+          <div class="ssl-callout" style="margin-top:20px;">
+            <div class="ssl-callout-icon">${lockIcon}</div>
+            <div class="ssl-callout-body">
+              <div class="ssl-callout-title">Activate your included DV SSL certificate</div>
+              <div class="ssl-callout-text">Your new hosting package includes a free Domain Validation SSL. Without it, visitors will see "Not secure" in their browser. Activation takes about 2 minutes.</div>
+              <div class="ssl-callout-steps">
+                <span>Click <strong>Activate included SSL</strong> below</span>
+                <span>Or select <strong>SSL certificates</strong> in Software &amp; Security</span>
+              </div>
+            </div>
+            <button type="button" class="btn-product activate pulse">Activate included SSL</button>
+          </div>
+        `,
+        sslHighlight: true,
+        sslBadge: true,
+        sslSubtext: 'Included · 1 step to activate',
+        sslBtnText: 'Activate included SSL',
+        notes: '<strong>Variant 3 — SSL callout card:</strong> Dedicated card with lock icon, benefit copy, and dual path guidance. Clear separation from paid upsells. Best for customers who miss inline list items.',
+      },
+      {
+        id: 4,
+        meta: 'Onboarding checklist with SSL as next step. Frames activation as part of setup.',
+        aboveOrder: `
+          <div class="onboarding-checklist" style="margin-top:20px;">
+            <div class="onboarding-header">Get started with your new hosting</div>
+            <div class="onboarding-body">
+              <div class="onboarding-intro">Complete these steps to launch your website securely:</div>
+              <ol class="checklist">
+                <li class="checklist-item">
+                  <span class="check-icon done">✓</span>
+                  <span class="checklist-label done">Hosting package activated</span>
+                </li>
+                <li class="checklist-item">
+                  <span class="check-icon done">✓</span>
+                  <span class="checklist-label done">Domain connected</span>
+                </li>
+                <li class="checklist-item">
+                  <span class="check-icon next">3</span>
+                  <span class="checklist-label next">Activate included DV SSL</span>
+                  <span class="checklist-action"><button type="button" class="btn-product activate">Go to SSL certificates</button></span>
+                </li>
+                <li class="checklist-item">
+                  <span class="check-icon pending">4</span>
+                  <span class="checklist-label">Publish your website</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        `,
+        sslHighlight: true,
+        sslHighlightStrong: true,
+        sslBadge: true,
+        sslSubtext: 'Your next step — included with your plan',
+        sslBtnText: 'Activate included SSL',
+        sslPointer: true,
+        notes: '<strong>Variant 4 — Onboarding checklist:</strong> Positions SSL activation as step 3 of launch. Reduces confusion ("Is this an upsell?") by showing progress. Pointer arrow draws eye to SSL row. Good for first-session UX.',
+      },
+      {
+        id: 5,
+        meta: 'Combined: welcome banner + callout + highlighted row. Maximum clarity.',
+        aboveOrder: `
+          <div class="welcome-banner" style="margin-top:20px;">
+            <div class="welcome-banner-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg></div>
+            <div class="welcome-banner-body">
+              <div class="welcome-banner-title">Your plan includes a free DV SSL — activate it now</div>
+              <div class="welcome-banner-text">Protect your visitors and show the padlock in browsers. Select <strong>SSL certificates</strong> below or use the button on the right.</div>
+            </div>
+            <div class="welcome-banner-cta">
+              <button type="button" class="btn-product activate pulse">Activate included SSL</button>
+            </div>
+          </div>
+        `,
+        sslHighlight: true,
+        sslHighlightStrong: true,
+        sslReorder: true,
+        sslBadge: true,
+        sslSubtext: 'Domain Validation SSL · Included · Not yet activated',
+        sslBtnText: 'Activate included SSL',
+        sslBtnPulse: true,
+        notes: '<strong>Variant 5 — Combined (recommended):</strong> Welcome banner for first impression + highlighted/reordered SSL row with distinct CTA label. Three reinforcement layers without a separate card. Balances visibility with layout familiarity. A/B test against Variant 3.',
+      },
+    ];
+
+    document.getElementById('variants-container').innerHTML = variants.map(v => renderVariant(v.id, v)).join('');
+
+    const metaMap = Object.fromEntries(variants.map(v => [String(v.id), v.meta]));
+
+    document.querySelectorAll('.variant-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.variant;
+        document.querySelectorAll('.variant-tab').forEach(t => {
+          t.classList.toggle('active', t === tab);
+        });
+        document.querySelectorAll('.mockup-frame').forEach(f => {
+          f.classList.toggle('hidden', f.id !== `variant-${id}`);
+        });
+        document.getElementById('review-meta').textContent = metaMap[id];
+      });
+    });
+  </script>
+</body>
+</html>
